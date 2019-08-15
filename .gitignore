@@ -1,0 +1,5 @@
+node_modules
+_src-old
+.vscode
+.idea
+.DS_Store
