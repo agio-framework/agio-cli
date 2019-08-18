@@ -9,7 +9,7 @@ export default (name: string, prefix?: string) => {
     // Define paths
     const paths = name.split('/');
     const controllerName = paths.pop();
-    const controllerPath = paths.join('/') || '.';
+    const controllerPath = paths.join('/') || controllerName;
 
     const spinner = ora();
     spinner.start(`Generating controller ${chalk.blue(controllerName)}`);
@@ -26,7 +26,7 @@ export default (name: string, prefix?: string) => {
 
 
     // Save file
-    const filename = join('src', 'controllers', controllerPath, `${controllerName}.controller.ts`);
+    const filename = join(process.cwd(), 'src', 'controllers', controllerPath, `${controllerName}.controller.ts`);
 
     try {
 

@@ -3,5 +3,6 @@ _src-old
 .vscode
 .idea
 .DS_Store
-teste
+demo
 dist
+agio-cli.tgz

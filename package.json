@@ -19,11 +19,13 @@
     "devDependencies": {
         "@types/cli-spinners": "^1.3.0",
         "@types/inquirer": "^6.5.0",
-        "@types/shelljs": "^0.8.5"
+        "@types/shelljs": "^0.8.5",
+        "copyfiles": "^2.1.1"
     },
     "scripts": {
-        "build": "tsc",
-        "start": "ts-node src/app.ts"
+        "build": "tsc && copyfiles src/**/*.ejs dist/",
+        "start": "ts-node src/app.ts",
+        "package": "npm run build && tar czf agio-cli.tgz --directory dist/ ."
     },
     "repository": {
         "type": "git",

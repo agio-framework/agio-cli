@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {Command} from 'commander';
 import modules from './modules';
 import chalk from 'chalk';
@@ -69,42 +71,3 @@ program.on('--help', (help) => {
 
 // Parse arguments
 program.parse(process.argv);
-
-// const help = program.outputHelp((help) => `\n${chalk.red(help)}\n`);
-
-// program
-//     .option('n new <project_name>', 'Create a new Agio project')
-//     .option('i info [project_path]', 'Project info')
-//     // .option('g generate <type> <name>', 'Generate project code')
-//     .option('g help', 'Show this message');
-
-// program.parse(process.argv);
-
-// const option = program.opts();
-// const args = program.args;
-
-
-// // Create new project
-// if (option.new) {
-
-//     modules.newProject(option.new);
-
-// // Generate project code
-// } else if (option.generate) {
-
-//     console.log(option.generate, args);
-
-// // Project info
-// } else if(option.info) {
-
-//     modules.projectInfo(typeof option.info === 'string' ? option.info : '.');
-
-// // Invalid command, show help banner
-// } else {
-
-//     console.log(chalk.blue('a'));
-
-// }
-
-// // Line after
-// console.log('\n');
