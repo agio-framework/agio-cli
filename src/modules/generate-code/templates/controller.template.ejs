@@ -1,0 +1,18 @@
+import { Get, Request } from '@agio/framework/http';
+import { Controller, Injectable } from '@agio/framework/common';
+
+@Controller(<%-prefix ? `'${prefix}'` : ''%>)
+@Injectable()
+export class <%- `${name[0].toUpperCase()}${name.slice(1)}` %>Controller {
+
+    constructor() {}
+
+    @Get('/', [])
+    public method(req: Request) {
+
+        // Send your response
+        req.sendResponse({say: <%-`'Hello, im a ${name} controller'`%>});
+
+    }
+
+}

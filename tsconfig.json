@@ -1,7 +1,19 @@
 {
     "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "pretty": false,
+        "outDir": "./dist",
+        "removeComments": true,
+        "esModuleInterop": false,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
         "typeRoots": [
             "node_modules/@types"
         ]
-    }
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

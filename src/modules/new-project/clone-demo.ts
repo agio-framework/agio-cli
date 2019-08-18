@@ -1,55 +1,56 @@
 import { join } from 'path';
-import * as ora from 'ora';
+import ora from 'ora';
 import chalk from 'chalk';
-import {exec, rm, cd, which, config, exit, ShellString} from 'shelljs';
+import { run } from '../../utils/runner';
 
-config.silent = true;
 
 const spinner = ora();
 const DEMO_REPO = 'https://github.com/agio-framework/agio-demo';
 
-const errorHandler = (shellString: ShellString) => {
-    // Fail to clone demo
-    if (shellString.code) {
-        spinner.text = shellString.stderr;
-        spinner.fail();
-        exit(shellString.code);
-    }
-}
 
+/**
+ * Clone the demo repo to start a new project
+ *
+ * @param  {string} projectName
+ */
 export default (projectName: string) => {
 
-    if (!which('git')) {
-        console.log('Sorry, git is required but are not installed.');
-        return exit(0);
-    }
 
-    // CLONE DEMO
-    spinner.text = `Creating a new project into ${chalk.blue(projectName)}`;
+    // Project destination
+    const projectPath = join('.', projectName);
+
+
+    spinner.text = `Creating a new project: ${chalk.blue(projectName)}`;
     spinner.start();
 
-    errorHandler(exec(`git clone ${DEMO_REPO} ${projectName}`));
-    errorHandler(rm('-rf', join(projectName, '.git')));
 
-    spinner.succeed();
+    // 1 - CLONE BASE PROJECT
+    run(`git clone ${DEMO_REPO} ${projectName}`)
 
-    // INSTALL DEPS
-    spinner.text = 'Installing dependencies'
-    spinner.clear();
-    spinner.start();
+    // 2 - REMOVE GIT PATH
+    .then(() => run('rm -rf .git', {cwd: projectPath}))
 
-    errorHandler(cd(projectName));
-    errorHandler(exec('npm install'));
+    // 3 - INSTALL DEPENDENCIES
+    .then(() => {
 
-    spinner.succeed();
+        spinner.succeed();
+        spinner.text = 'Installing dependencies';
+        spinner.start();
 
-    spinner.text = 'Finshing...';
-    spinner.start();
+        return run('npm install', {cwd: projectPath});
 
-    errorHandler(cd('..'));
-    errorHandler(rm('-rf', projectName));
+    })
 
-    spinner.text = 'Done! your project has created.'
-    spinner.succeed();
+    // 4 - DONE
+    .then(() => {
+
+        spinner.succeed();
+        spinner.text = chalk.green('Done!');
+        spinner.succeed();
+
+    })
+
+    // 0 - ERROR
+    .catch((signal) => spinner.fail(signal));
 
 }
